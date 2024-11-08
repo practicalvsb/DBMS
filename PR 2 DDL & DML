@@ -1,0 +1,62 @@
+ create table stud(roll int , name varchar(20) );
+ desc stud;
+alter table stud add sub varchar(10);
+desc stud;
+alter table stud add marks int ;
+desc stud;
+alter table stud rename studd ;
+option --  rename stud to studd ;
+desc studd;
+ALTER TABLE studd DROP marks;
+truncate table studd;
+drop table studd;
+
+VIEW ------
+
+create table stud(roll int , name varchar(20)  );
+ insert into stud values(10 , "vrushali" );
+insert into stud values(5 , 'xyz' );
+ insert into stud values(8 , 'abc' );
+ insert into stud values(8 , 'pqr' );
+select *from stud;
+ create or replace view studd as select roll , name from stud where roll > 5;
+select *from studd;
+
+
+SEQUENCE -----
+
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+
+
+
+create table students(id int , name varchar(20));
+
+SQL> CREATE SEQUENCE student_seq
+  2      START WITH 1
+  3      INCREMENT BY 1
+  4      NOCYCLE;
+
+ insert into students values(student_seq.NEXTVAL , 'Vrushali');
+insert into students values(student_seq.NEXTVAL , 'abc');
+
+
+
+INDEXEX-------
+
+CREATE INDEX idx_name ON stud (name);
+show index from stud;
+DROP INDEX idx_name ON stud;
+
+
+
+DML Queries ---
+
+update stud set roll = 6  where name ='xyz';
+delete from stud where name = 'abc' ;
+select sum(roll) from stud ;
+select count(roll) from stud;
+ select max(roll) from stud;

@@ -36,6 +36,31 @@ select *from o_rollcall;
  
 
 
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR c1 IS 
+        SELECT roll_no FROM o_rollcall;  -- Declare cursor to fetch roll_no
+    r2 INT;  -- Variable to store each fetched roll_no
+BEGIN
+    OPEN c1;  -- Open the cursor
+    LOOP
+        FETCH c1 INTO r2;  -- Fetch the next roll_no into r2
+        EXIT WHEN c1%NOTFOUND;  -- Exit the loop when no more rows are found
+        
+        -- Process the fetched roll_no (for example, print it)
+        DBMS_OUTPUT.PUT_LINE('Roll Number: ' || r2);  -- Print the roll_no
+    END LOOP;
+    CLOSE c1;  -- Close the cursor when done
+END;
+/
+
+
+
+
+
+
+
 
 
 CREATE TABLE O_RollCall (

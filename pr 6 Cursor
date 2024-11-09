@@ -1,11 +1,13 @@
-create   table   o_rollcall(roll_no      int,name        varchar(20),address varchar(20));
+
+ create   table   o_rollcall(roll_no      int,name        varchar(20),address varchar(20));
 create   table   n_rollcall(roll_no      int,name varchar(20),address varchar(20));
  insert into o_rollcall values('10','vrushali','Pune');
 insert into o_rollcall values('7','abc','nashik');
 insert into o_rollcall values('4','xyz','mumbai');
+insert into o_rollcall values('11','lmn','delhi');
 
  delimiter //
-mysql> create procedure p(in r1 int)
+  create procedure p(in r1 int)
     begin
     declare r2 int;
     declare exit_loop boolean;
@@ -27,8 +29,11 @@ mysql> create procedure p(in r1 int)
     end
     //
 
- call p3(3);
+ call p(0);
 
+select *from n_rollcall ;
+select *from o_rollcall;
+ 
 
 
 

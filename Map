@@ -1,0 +1,14 @@
+db.studentd.insertMany([
+  { 'age': 20, 'marks': 90 },
+  { 'age': 18, 'marks': 50 },
+  { 'age': 19, 'marks': 60 },
+  { 'age': 19, 'marks': 40 }
+]);
+
+var mapfunction = function(){emit(this.age , this.marks)};
+
+ var reducefunction = function(key , value){return Array.sum(value)};
+
+  db.studentd.mapReduce(mapfunction , reducefunction,{'out' : 'total'});
+ db.total.find();
+ 

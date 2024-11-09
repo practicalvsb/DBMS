@@ -31,35 +31,4 @@ mysql> create procedure p(in r1 int)
 
 
 
-CREATE PROCEDURE cursor_proc_p1()
-BEGIN
- DECLARE fin INT DEFAULT 0;
- DECLARE old_roll INT;
- DECLARE old_name VARCHAR(20);
-
- DECLARE old_csr CURSOR FOR SELECT roll_no, name FROM O_RollCall;
-DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = 1;
-OPEN old_csr;
-read_loop: LOOP
- FETCH old_csr INTO old_roll, old_name;
-
- -- Check if no more rows are found
- IF fin = 1 THEN
- LEAVE read_loop;
- END IF;
-
- -- Check for redundancy before inserting
- IF NOT EXISTS (SELECT * FROM N_RollCall WHERE roll_no = old_roll) THEN
- INSERT INTO N_RollCall (roll_no, name) VALUES (old_roll, old_name);
- END IF;
- END LOOP;
--- Close the cursor
- CLOSE old_csr;
-END //
-
-BEGIN
-	cursor_imp;
-END;
-
-/
-
+ 

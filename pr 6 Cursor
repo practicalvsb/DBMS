@@ -1,0 +1,58 @@
+create   table   o_rollcall(roll_no      int,name        varchar(20),address varchar(20));
+create   table   n_rollcall(roll_no      int,name varchar(20),address varchar(20));
+ insert into o_rollcall values('10','vrushali','Pune');
+insert into o_rollcall values('7','abc','nashik');
+insert into o_rollcall values('4','xyz','mumbai');
+
+ delimiter //
+mysql> create procedure p(in r1 int)
+    begin
+    declare r2 int;
+    declare exit_loop boolean;
+    declare c1 cursor for select roll_no from o_rollcall where roll_no>r1;
+     declare continue handler for not found set exit_loop=true;
+    open c1;
+     e_loop:loop
+     fetch c1 into r2;
+    if not exists(select * from n_rollcall where roll_no=r2)
+     then
+     insert into n_rollcall select * from o_rollcall where roll_no=r2;
+     end if;
+    if exit_loop
+     then
+    close c1;
+    leave e_loop;
+    end if;
+     end loop e_loop;
+    end
+    //
+
+ call p3(3);
+
+
+
+CREATE PROCEDURE cursor_proc_p1()
+BEGIN
+ DECLARE fin INT DEFAULT 0;
+ DECLARE old_roll INT;
+ DECLARE old_name VARCHAR(20);
+
+ DECLARE old_csr CURSOR FOR SELECT roll_no, name FROM O_RollCall;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = 1;
+OPEN old_csr;
+read_loop: LOOP
+ FETCH old_csr INTO old_roll, old_name;
+
+ -- Check if no more rows are found
+ IF fin = 1 THEN
+ LEAVE read_loop;
+ END IF;
+
+ -- Check for redundancy before inserting
+ IF NOT EXISTS (SELECT * FROM N_RollCall WHERE roll_no = old_roll) THEN
+ INSERT INTO N_RollCall (roll_no, name) VALUES (old_roll, old_name);
+ END IF;
+ END LOOP;
+-- Close the cursor
+ CLOSE old_csr;
+END //

@@ -56,3 +56,10 @@ read_loop: LOOP
 -- Close the cursor
  CLOSE old_csr;
 END //
+
+BEGIN
+	cursor_imp;
+END;
+
+/
+

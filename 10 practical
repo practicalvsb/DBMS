@@ -1,140 +1,493 @@
-// C++ program to implement Shortest Remaining Time First
-// Shortest Remaining Time First (SRTF)
+  
 
-#include <bits/stdc++.h>
-using namespace std;
 
-struct Process {
-    int pid; // Process ID
-    int bt; // Burst Time
-    int art; // Arrival Time
-};
 
-// Function to find the waiting time for all
-// processes
-void findWaitingTime(Process proc[], int n,
-                                int wt[])
+
+
+GroupB:LabAssignmentno.11
+
+Title:Implement aggregation and indexing with suitable example using MongoDB
+
+
+
+dipti@dipti-VPCEG28FN:~$mongo MongoDB shell version v3.6.3
+
+connectingto:mongodb://127.0.0.1:27017 MongoDB server version: 3.6.3
+
+Serverhasstartupwarnings:
+
+2020-10-15T14:26:28.786+0530ISTORAGE[initandlisten]
+
+2020-10-15T14:26:28.786+0530ISTORAGE[initandlisten]**WARNING:
+
+UsingtheXFSfilesystemisstronglyrecommendedwiththeWiredTigerstorage engine
+
+2020-10-15T14:26:28.786+0530 I STORAGE[initandlisten] **	See http://dochub.mongodb.org/core/prodnotes-filesystem
+
+2020-10-15T14:26:36.417+0530ICONTROL[initandlisten]
+
+2020-10-15T14:26:36.417+0530ICONTROL[initandlisten]**WARNING:
+
+Accesscontrolisnotenabledforthedatabase.
+
+2020-10-15T14:26:36.417+0530 I CONTROL[initandlisten] **	Readand write access to data and configuration is unrestricted.
+
+2020-10-15T14:26:36.417+0530ICONTROL[initandlisten]
+
+>
+
+//USEDATABASE
+
+>	use comp; switchedtodbcomp
+
+//CREATE COLLECTION WEBSITE
+
+>	db.createCollection('website');
+
+{"ok":1 }
+
+
+
+//INSERT VALUES IN WEBSITE
+
+>	
+
+db.website.insert({'roll':'1','name':'harsh','amount':1000,'ur l':'www.yahoo.com'});
+
+WriteResult({"nInserted":1})
+
+ 
+
+>db.website.insert({'roll':'2','name':'jitesh','amount':2000,'url':'www.yahoo.com'});
+
+
+
+WriteResult({"nInserted":1})
+
+
+
+>db.website.insert({'roll':'3','name':'rina','amount':3000,'url':'www.google.com'
+
+});
+
+
+
+WriteResult({"nInserted":1})
+
+>db.website.insert({'roll':'4','name':'ash','amount':4000,'url':'www.gmail.com'})
+
+;
+
+WriteResult({"nInserted":1})
+
+>db.website.insert({'roll':'5','name':'ash','amount':1000,'url':'www.pvg.com'}); WriteResult({ "nInserted" : 1 })
+
+//SUMAGGREGATE
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$sum:"$amount"}}});
+
+{"_id":"ash","total":5000}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":2000}
+
+
+
+//AVG AGGREGATE
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":
+
+{$avg:"$amount"}}});
+
+{"_id":"ash","total":2500}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":1000}
+
+
+
+//MINAGGREGATION
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$min:"$amount"}}});
+
+{"_id":"ash","total":1000}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":1000}
+
+ 
+
+//MAXAGGREGATION
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$max:"$amount"}}});
+
+{"_id":"ash","total":4000}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":1000}
+
+
+
+//FIRSTAGGREGATION
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$first:"$amount"}}});
+
+{"_id":"ash","total":4000}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":1000}
+
+
+
+//LASTAGGREGATION
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$last:"$amount"}}});
+
+{"_id":"ash","total":1000}
+
+{"_id":"rina","total":3000}
+
+{"_id":"jitesh","total":2000}
+
+{"_id":"harsh","total":1000}
+
+
+
+//PUSHAGGREGATION
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":
+
+{$push:"$amount"}}});
+
+{"_id":"ash","total":[4000,1000]}
+
+{"_id":"rina","total":[3000]}
+
+{"_id":"jitesh","total":[2000]}
+
+{"_id":"harsh","total":[1000,1000]}
+
+
+
+//COUNTAGGREGATION
+
+
+
+>	db.website.aggregate({$group:{_id:"$name","total":{$sum:1}}});
+
+{"_id":"ash","total":2}
+
+{"_id":"rina","total":1}
+
+{"_id":"jitesh","total":1}
+
+{"_id":"harsh","total":2}
+
+ 
+
+//ADDTOSETAGGREGATE
+
+
+
+>	db.website.aggregate({$group:
+
+{_id:"$name","total"{$addToSet:"$amount"}}});
+
+{"_id":"ash","total":[1000,4000]}
+
+{"_id":"rina","total":[3000]}
+
+{"_id":"jitesh","total":[2000]}
+
+{"_id":"harsh","total":[1000]}
+
+
+
+
+
+//INDEXING
+
+>	db.createCollection('website1');
+
+{"ok":1 }
+
+>	db.website1.insert({'r':1,'name':'harsh'}); WriteResult({ "nInserted" : 1 })
+
+
+
+>	db.website1.find().pretty()
+
+{"_id":ObjectId("5ba3509a444926329738012d"),"roll":1, "name" : "harsh" }
+
+{"_id":ObjectId("5ba35293444926329738012e"),"roll":1, "name" : "harsh" }
+
+
+
+>	db.website1.createIndex({'name':1})
+
+{"numIndexesBefore":2,"note":"allindexesalready exist", "ok" : 1 }//CREATE INDEXING
+
+
+
+>	db.website1.createIndex({'name':-1})
+
 {
-    int rt[n];
 
-    // Copy the burst time into rt[]
-    for (int i = 0; i < n; i++)
-        rt[i] = proc[i].bt;
+"createdCollectionAutomatically":false, "numIndexesBefore" : 2,
 
-    int complete = 0, t = 0, minm = INT_MAX;
-    int shortest = 0, finish_time;
-    bool check = false;
+"numIndexesAfter":3,
 
-    // Process until all processes gets
-    // completed
-    while (complete != n) {
+"ok":1
 
-        // Find process with minimum
-        // remaining time among the
-        // processes that arrives till the
-        // current time`
-        for (int j = 0; j < n; j++) {
-            if ((proc[j].art <= t) &&
-            (rt[j] < minm) && rt[j] > 0) {
-                minm = rt[j];
-                shortest = j;
-                check = true;
-            }
-        }
-
-        if (check == false) {
-            t++;
-            continue;
-        }
-
-        // Reduce remaining time by one
-        rt[shortest]--;
-
-        // Update minimum
-        minm = rt[shortest];
-        if (minm == 0)
-            minm = INT_MAX;
-
-        // If a process gets completely
-        // executed
-        if (rt[shortest] == 0) {
-
-            // Increment complete
-            complete++;
-            check = false;
-
-            // Find finish time of current
-            // process
-            finish_time = t + 1;
-
-            // Calculate waiting time
-            wt[shortest] = finish_time -
-                        proc[shortest].bt -
-                        proc[shortest].art;
-
-            if (wt[shortest] < 0)
-                wt[shortest] = 0;
-        }
-        // Increment time
-        t++;
-    }
 }
 
-// Function to calculate turn around time
-void findTurnAroundTime(Process proc[], int n,
-                        int wt[], int tat[])
+
+
+>	db.website1.getIndexses()
+
+2018-09-20T13:28:09.628+0530TypeError:Property'getIndexses' of object om.website is not a
+
+function
+
+
+
+>	db.website1.getIndexes() [
+
+{"v":1,
+
+ 
+
+},
+
 {
-    // calculating turnaround time by adding
-    // bt[i] + wt[i]
-    for (int i = 0; i < n; i++)
-        tat[i] = proc[i].bt + wt[i];
+
+"v":1,
+
+"key":{
+
+"name":1
+
+},
+
+"name" : "name_1", "ns":"harsh.website1"
+
+},
+
+{
+
+"v":1,
+
+"key":{
+
+"name":-1
+
+},
+
+"name" : "name_-1", "ns":"harsh.website1"
+
 }
 
-// Function to calculate average time
-void findavgTime(Process proc[], int n)
+]
+
+>	db.website1.createIndex({'name':-1})
+
+{"numIndexesBefore":3,"note":"allindexesalready exist", "ok" : 1 }
+
+
+
+//DROPINDEX
+
+
+
+>	db.website.dropIndex({'name':-1})
+
+{ "nIndexesWas" : 3, "ok" : 1 }>db.website1.dropIndex({'name':1})
+
+{"nIndexesWas":2,"ok":1}>db.website1.dropIndex({'name':1})
+
 {
-    int wt[n], tat[n], total_wt = 0,
-                    total_tat = 0;
 
-    // Function to find waiting time of all
-    // processes
-    findWaitingTime(proc, n, wt);
+"nIndexesWas":1,
 
-    // Function to find turn around time for
-    // all processes
-    findTurnAroundTime(proc, n, wt, tat);
+"ok":0,
 
-    // Display processes along with all
-    // details
-    cout << " P\t\t"
-        << "BT\t\t"
-        << "WT\t\t"
-        << "TAT\t\t\n";
+"errmsg":"can'tfindindexwithkey:{name:1.0}"
 
-    // Calculate total waiting time and
-    // total turnaround time
-    for (int i = 0; i < n; i++) {
-        total_wt = total_wt + wt[i];
-        total_tat = total_tat + tat[i];
-        cout << " " << proc[i].pid << "\t\t"
-            << proc[i].bt << "\t\t " << wt[i]
-            << "\t\t " << tat[i] << endl;
-    }
-
-    cout << "\nAverage waiting time = "
-        << (float)total_wt / (float)n;
-    cout << "\nAverage turn around time = "
-        << (float)total_tat / (float)n;
 }
 
-// Driver code
-int main()
-{
-    Process proc[] = { { 1, 6, 2 }, { 2, 2, 5 },
-                    { 3, 8, 1 }, { 4, 3, 0}, {5, 4, 4} };
-    int n = sizeof(proc) / sizeof(proc[0]);
+//GETINDEXING
 
-    findavgTime(proc, n);
-    return 0;
+>	db.website1.getIndexes() [
+
+{
+
+"v":1,
+
+ 
+
 }
 
+]
+
+
+
+>	db.website1.find().pretty()
+
+{"_id":ObjectId("5ba3509a444926329738012d"),"roll":1, "name" : "harsh" }
+
+{"_id":ObjectId("5ba35293444926329738012e"),"roll":1, "name" : "harsh" }
+
+
+
+>	
+
+>	db.website1.createIndex({'name':1})
+
+{
+
+"createdCollectionAutomatically":false, "numIndexesBefore" : 1,
+
+"numIndexesAfter":2,
+
+"ok":1
+
+}
+
+
+
+>	db.website1.getIndexes()[
+
+{
+
+"v":1,
+
+"key":{
+
+"_id":1
+
+},
+
+"name":"_id_",
+
+"ns":"harsh.website1"
+
+},
+
+{
+
+"v":1,
+
+"key":{"name":1
+
+},
+
+"name" : "name_1", "ns":"harsh.website1"
+
+}
+
+]
+
+
+
+>	db.website1.dropIndex({'name':1})
+
+{"nIndexesWas":2,"ok":1}
+
+
+
+>	db.website1.getIndexes() [
+
+ 
+
+{
+
+"v":1,
+
+"key":{
+
+"_id":1
+
+},
+
+"name":"_id_",
+
+"ns":"harsh.website1"
+
+}
+
+]
+
+>	db.website1.createIndex({'name':1,'r':-1})
+
+{"createdCollectionAutomatically":false, "numIndexesBefore" : 1,
+
+"numIndexesAfter":2,
+
+"ok":1
+
+}
+
+
+
+>	db.website1.getIndexes() [
+
+{
+
+"v":1,
+
+"key":{
+
+"_id":1
+
+},
+
+"name":"_id_",
+
+"ns":"harsh.website1"
+
+},
+
+{
+
+"v":1,
+
+"key":{
+
+"name":1,
+
+"r":-1
+
+},
+
+"name":"name_1_r_-1", "ns" : "harsh.website1"
+
+}
+
+](i-search)`db.website1.insert({'roll':1,'name':'harsh'});':

@@ -1,0 +1,32 @@
+Step 1 – Configure Repository
+sudo vi /etc/yum.repos.d/mongodb.repo 
+
+Add the below content
+[Mongodb]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+
+do not press any of the key and directly type  :wq
+
+
+
+
+
+Save the file and close it.
+
+Step 2 – Install MongoDB on Fedora
+sudo dnf install mongodb-org mongodb-org-server 
+Step 3 – Start MongoDB Service
+sudo systemctl enable mongod.service 
+sudo systemctl start mongod.service 
+
+Once the service is started, check the current status with the following command.
+sudo systemctl status mongod.service 
+
+if status shows active then it is ready to execute program.
+
+open new window and type – mongo
+start to type and execute program.
